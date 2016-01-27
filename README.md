@@ -16,3 +16,18 @@ comprised of two views, one for the user profile and one for the map discovery.
 Both will exercise location APIs.
 
 Catchphrase: *keeping you in the **loop**!*
+
+## Howto
+
+* Install vagrant
+* Install Virtualbox
+* Run ```vagrant up``` and wait a while
+* ```vagrant ssh```
+* ```service elasticsearch start``` If not already started
+* ```cd /webapp/```
+* ```npm install``` If not already installed stuff
+* ```nodejs app.js```
+* Ports are forwarded so go to http://localhost:8080 in your machine
+
+Note:
+Code directory is shared so edit *locally* and restart app in vagrant.
