@@ -1,8 +1,10 @@
-exports.search = function(request, response) {
-    response.send('{}')
-}
+var client = require('./elastic').client;
 
-exports.postMessage = function(request, response) {
-    response.send('{}')
-}
+exports.search = function(req, res) {
+    res.send('ok');
+};
+
+exports.postMessage = function(req, res) {
+    res.send('{}');
+};
 

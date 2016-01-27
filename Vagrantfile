@@ -78,6 +78,6 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -y mysql-server-5.6
     sudo apt-get install -y apache2
     sudo update-rc.d elasticsearch defaults 95 10
-    npm install -g express
+    sudo /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
   SHELL
 end
