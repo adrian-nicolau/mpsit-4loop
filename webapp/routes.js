@@ -38,7 +38,7 @@ exports.search = function(req, res) {
         }
     };
     if (query) {
-        query = queyr.substring(0, maxLen);
+        query = query.substring(0, maxLen);
         queryDict.query.filtered.query = {
             'match': {
                 'message': query
