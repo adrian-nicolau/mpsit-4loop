@@ -16,6 +16,9 @@ var MAPPING = {
                     },
                     location: {
                         type: 'geo_point'
+                    },
+                    date: {
+                        type: 'date'
                     }
                 }
             }

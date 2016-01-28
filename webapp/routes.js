@@ -22,6 +22,7 @@ exports.search = function(req, res) {
     }
 
     var queryDict = {
+        'sort': [{date: {order: 'desc'}}],
         'query': {
            'filtered' : {
                 'filter' : {
@@ -96,7 +97,8 @@ exports.postMessage = function(req, res) {
             location: {
                 lat: parseFloat(lat),
                 lon: parseFloat(lon),
-            }
+            },
+            date: new Date()
         },
     }, function(err, response) {
         res.send(response);
