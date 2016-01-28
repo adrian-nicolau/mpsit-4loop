@@ -26,8 +26,15 @@ Catchphrase: *keeping you in the **loop**!*
 * ```service elasticsearch start``` If not already started
 * ```cd /webapp/```
 * ```npm install``` If not already installed stuff
+* ```grunt```
 * ```nodejs app.js```
 * Ports are forwarded so go to http://localhost:8080 in your machine
+
+## Dev Cycle
+
+* ```grunt watch:builder``` # Builds all requirements from frontend app to public/bundle.js
+* ```nodejs app.js``` In another tab
+* TODO autoreload with grunt command
 
 Note:
 Code directory is shared so edit *locally* and restart app in vagrant.

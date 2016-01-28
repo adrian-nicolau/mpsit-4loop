@@ -72,12 +72,11 @@ Vagrant.configure(2) do |config|
     sudo apt-get update && sudo apt-get install -y elasticsearch
     sudo apt-get install -y openjdk-7-jre
     sudo apt-get install -y nodejs
+    sudo ln -s /usr/bin/nodejs /usr/bin/node
     sudo apt-get install -y npm
-    sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
-    sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-    sudo apt-get install -y mysql-server-5.6
     sudo apt-get install -y apache2
     sudo update-rc.d elasticsearch defaults 95 10
     sudo /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
+    npm install -g grunt-cli
   SHELL
 end

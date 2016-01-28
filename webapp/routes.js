@@ -6,7 +6,7 @@ var distances = ['50m', '100m', '500m', '1km', '2km', '5km'];
 
 exports.distances = function(req, res) {
     res.send({distances: distances});
-}
+};
 
 exports.search = function(req, res) {
     var longitude = req.query.longitude || '0.0';
@@ -39,7 +39,7 @@ exports.search = function(req, res) {
     };
     if (query) {
         query = queyr.substring(0, maxLen);
-        queryDict.query.filtered['query'] = {
+        queryDict.query.filtered.query = {
             'match': {
                 'message': query
             }

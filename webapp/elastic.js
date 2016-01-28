@@ -4,7 +4,7 @@ var client = new elasticsearch.Client({
     log: 'trace'
 });
 
-var INDEX = 'posts'
+var INDEX = 'posts';
 var MAPPING = {
     index: INDEX,
     body: {

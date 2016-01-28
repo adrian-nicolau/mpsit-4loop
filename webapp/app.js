@@ -20,5 +20,5 @@ app.post('/api/post', routes.postMessage);
 
 
 app.listen(3000, function() {
-    console.log('App listening on port 3000')
+    console.log('App listening on port 3000');
 });
