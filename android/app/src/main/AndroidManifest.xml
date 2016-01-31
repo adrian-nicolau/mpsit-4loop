@@ -17,7 +17,7 @@ limitations under the License.
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.google.android.gms.location.sample.basiclocationsample" >
+    package="ro.pub.cs.mpsit.loop4" >
 
     <!--
     Android has two location request settings: {@code ACCESS_COARSE_LOCATION} and
@@ -25,6 +25,8 @@ limitations under the License.
     sample uses ACCESS_FINE_LOCATION. As a result, the location services return a precise location.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--HTTP requests over LAN -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"

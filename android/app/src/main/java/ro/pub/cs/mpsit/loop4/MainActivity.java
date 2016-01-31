@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.android.gms.location.sample.basiclocationsample;
+package ro.pub.cs.mpsit.loop4;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements
      * Provides the entry point to Google Play services.
      */
     protected GoogleApiClient mGoogleApiClient;
+    protected HTTPController mHttpClient;
 
     /**
      * Represents a geographical location.
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
-
+    protected TextView mResponseText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,8 +68,11 @@ public class MainActivity extends AppCompatActivity implements
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mLatitudeText = (TextView) findViewById((R.id.latitude_text));
         mLongitudeText = (TextView) findViewById((R.id.longitude_text));
+        mResponseText = (TextView) findViewById(R.id.response_text);
 
         buildGoogleApiClient();
+
+        mHttpClient = new HTTPController(this);
     }
 
     /**
@@ -87,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+
+        mHttpClient.getDistances();
+        mHttpClient.getTweets("", 45, 25, "1km", mResponseText);
     }
 
     @Override
@@ -131,4 +137,5 @@ public class MainActivity extends AppCompatActivity implements
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
+
 }
