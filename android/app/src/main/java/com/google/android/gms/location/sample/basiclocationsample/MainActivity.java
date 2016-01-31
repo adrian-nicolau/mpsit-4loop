@@ -1,12 +1,12 @@
 /**
  * Copyright 2014 Google Inc. All Rights Reserved.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import com.google.android.gms.location.LocationServices;
 
 /**
  * Location sample.
- *
+ * <p/>
  * Demonstrates use of the Location API to retrieve the last known location for a device.
  * This sample uses Google Play services (GoogleApiClient) but does not need to authenticate a user.
  * See https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart if you are
@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
-
 
 
     @Override
@@ -124,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements
         // onConnectionFailed.
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
-
 
     @Override
     public void onConnectionSuspended(int cause) {
