@@ -26,14 +26,15 @@ public class HTTPController {
 
     private Context context;
     private RequestQueue queue;
-    private String baseUrl = "http://192.168.0.103:8080/api/";
+    private String baseUrl;
 
     private ArrayList<String> allowedDistances = new ArrayList<String>();
 
-    public HTTPController(Context context) {
+    public HTTPController(Context context, String ipAddress) {
         this.context = context;
         // Instantiate the RequestQueue.
         this.queue = Volley.newRequestQueue(this.context);
+        this.baseUrl = "http://" + ipAddress + ":8080/api/";
     }
 
     public void getTweets(String query, double lon, double lat, String distance, final TextView container) {

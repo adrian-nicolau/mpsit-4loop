@@ -16,6 +16,7 @@
 
 package ro.pub.cs.mpsit.loop4;
 
+import android.app.DialogFragment;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -71,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements
         mResponseText = (TextView) findViewById(R.id.response_text);
 
         buildGoogleApiClient();
-
-        mHttpClient = new HTTPController(this);
     }
 
     /**
@@ -91,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements
         super.onStart();
         mGoogleApiClient.connect();
 
-        mHttpClient.getDistances();
-        mHttpClient.getTweets("", 45, 25, "1km", mResponseText);
+        DialogFragment dialog = new GetServerIPDialogFragment();
+        dialog.show(getFragmentManager(), TAG);
     }
 
     @Override
@@ -136,6 +135,12 @@ public class MainActivity extends AppCompatActivity implements
         // attempt to re-establish the connection.
         Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
+    }
+
+    /* Called from Dialog's onClick. */
+    public void testConnection() {
+        mHttpClient.getDistances();
+        mHttpClient.getTweets("", 45, 25, "1km", mResponseText);
     }
 
 }

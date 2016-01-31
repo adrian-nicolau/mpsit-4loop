@@ -18,6 +18,9 @@
     <string name="app_name">Basic Location Sample</string>
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
+    <string name="server_dialog">Enter Server IPv4 Address</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
