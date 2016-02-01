@@ -29,7 +29,7 @@ public class GetServerIPDialogFragment extends DialogFragment {
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Dialog d = (Dialog) dialog; // fu android, fu java
+                        Dialog d = (Dialog) dialog;
                         EditText edit = (EditText) d.findViewById(R.id.server_dialog_text);
                         activity.mHttpClient = new HTTPController(
                                 activity.getApplicationContext(),
