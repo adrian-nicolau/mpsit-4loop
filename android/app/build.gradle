@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.google.android.gms.location.sample.basiclocationsample"
+        applicationId "ro.pub.cs.mpsit.loop4"
         minSdkVersion 11
         targetSdkVersion 22
         versionCode 1

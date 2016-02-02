@@ -1,10 +1,16 @@
 package ro.pub.cs.mpsit.loop4;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +43,17 @@ public class MainActivity extends AppCompatActivity implements
      * Represents a geographical location.
      */
     protected Location mLastLocation;
+    protected String mRadius = "5km";
 
     protected String mLatitudeLabel;
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
     protected TextView mResponseText;
+    protected Button mPostButton;
+    protected Button mRefreshButton;
+    protected Button mLocateButton;
+    protected SeekBar mSeekBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,12 @@ public class MainActivity extends AppCompatActivity implements
         mLatitudeText = (TextView) findViewById((R.id.latitude_text));
         mLongitudeText = (TextView) findViewById((R.id.longitude_text));
         mResponseText = (TextView) findViewById(R.id.response_text);
+        mPostButton = (Button) findViewById(R.id.post);
+        mRefreshButton = (Button) findViewById(R.id.refresh);
+        mLocateButton = (Button) findViewById(R.id.locate);
+        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
+
+        setEnv();
 
         buildGoogleApiClient();
     }
@@ -124,7 +141,108 @@ public class MainActivity extends AppCompatActivity implements
     /* Called from Dialog's onClick. */
     public void testConnection() {
         mHttpClient.getDistances();
-        mHttpClient.getTweets("", 45, 25, "1km", mResponseText);
+    }
+
+    private void setEnv() {
+        setPostButton();
+        setRefreshButton();
+        setLocateButton();
+
+        setSeekBar();
+    }
+
+    private void setPostButton() {
+        mPostButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                // get last location
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                final EditText input = new EditText(MainActivity.this);
+
+                alertDialog.setTitle("Post Message");
+                alertDialog.setMessage("Say what's on your mind..");
+                alertDialog.setView(input);
+
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Post", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String message = input.getText().toString();
+                        Log.i(TAG, message);
+                        mHttpClient.postMessage(message, mLastLocation.getLatitude(), mLastLocation.getLongitude(), mResponseText);
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+    }
+
+    private void setRefreshButton() {
+        mRefreshButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                // get tweets with new location
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                mHttpClient.getTweets("", mLastLocation.getLatitude(), mLastLocation.getLongitude(), mRadius, mResponseText);
+            }
+        });
+    }
+
+    private void setLocateButton() {
+        mLocateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if (mLastLocation != null) {
+                    mLatitudeText.setText(String.format("%s: %f", mLatitudeLabel,
+                            mLastLocation.getLatitude()));
+                    mLongitudeText.setText(String.format("%s: %f", mLongitudeLabel,
+                            mLastLocation.getLongitude()));
+                    Toast.makeText(MainActivity.this, R.string.location_refreshed, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    protected void setSeekBar() {
+        mSeekBar.setProgress(2500);         // 2.5km
+        mSeekBar.incrementProgressBy(50);   // 50m
+        mSeekBar.setMax(5000);              // 5km
+
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 50m step
+                progress = progress / 50;
+                progress = progress * 50;
+                if (fromUser) {
+                    seekBar.setProgress(progress);
+                }
+                mResponseText.setText("I want to see messages within " + String.valueOf(progress) + " meters.");
+
+                // ugly as hell
+                if (progress < 75)
+                    mRadius = "50m";
+                else if (progress < 250)
+                    mRadius = "100m";
+                else if (progress < 1000)
+                    mRadius = "500m";
+                else if (progress < 1500)
+                    mRadius = "1km";
+                else if (progress < 2500)
+                    mRadius = "2km";
+                else
+                    mRadius = "5km";
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
 }

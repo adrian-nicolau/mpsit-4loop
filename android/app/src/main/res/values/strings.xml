@@ -11,6 +11,7 @@
     <string name="refresh">REFRESH</string>
     <string name="locate">LOCATE</string>
 
+    <string name="location_refreshed">Location Refreshed</string>
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
     </string>
