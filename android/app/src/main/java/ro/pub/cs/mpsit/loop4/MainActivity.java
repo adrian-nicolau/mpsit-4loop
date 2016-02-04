@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +22,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.ArrayList;
 
 /**
  * Location sample.
@@ -49,11 +54,15 @@ public class MainActivity extends AppCompatActivity implements
     protected String mLongitudeLabel;
     protected TextView mLatitudeText;
     protected TextView mLongitudeText;
-    protected TextView mResponseText;
+    protected TextView mDebugText;
     protected Button mPostButton;
     protected Button mRefreshButton;
     protected Button mLocateButton;
     protected SeekBar mSeekBar;
+    protected ListView mListView;
+    protected ArrayAdapter<Tweet> mListAdapter;
+
+    protected ArrayList<Tweet> mTweets = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +73,12 @@ public class MainActivity extends AppCompatActivity implements
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mLatitudeText = (TextView) findViewById((R.id.latitude_text));
         mLongitudeText = (TextView) findViewById((R.id.longitude_text));
-        mResponseText = (TextView) findViewById(R.id.response_text);
+        mDebugText = (TextView) findViewById(R.id.debug_text);
         mPostButton = (Button) findViewById(R.id.post);
         mRefreshButton = (Button) findViewById(R.id.refresh);
         mLocateButton = (Button) findViewById(R.id.locate);
         mSeekBar = (SeekBar) findViewById(R.id.seekBar);
+        mListView = (ListView) findViewById(R.id.list);
 
         setEnv();
 
@@ -149,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements
         setLocateButton();
 
         setSeekBar();
+        setList();
     }
 
     private void setPostButton() {
@@ -169,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements
                     public void onClick(DialogInterface dialog, int which) {
                         String message = input.getText().toString();
                         Log.i(TAG, message);
-                        mHttpClient.postMessage(message, mLastLocation.getLatitude(), mLastLocation.getLongitude(), mResponseText);
+                        mHttpClient.postMessage(message, mLastLocation.getLatitude(), mLastLocation.getLongitude(), mDebugText);
                     }
                 });
                 alertDialog.show();
@@ -182,7 +193,29 @@ public class MainActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // get tweets with new location
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                mHttpClient.getTweets("", mLastLocation.getLatitude(), mLastLocation.getLongitude(), mRadius, mResponseText);
+
+                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                final EditText input = new EditText(MainActivity.this);
+
+                alertDialog.setTitle("Optional");
+                alertDialog.setMessage("Search by:");
+                alertDialog.setView(input);
+
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Search", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String criteria = input.getText().toString();
+                        Log.i(TAG, criteria);
+                        mHttpClient.getTweets(
+                                criteria,
+                                mLastLocation.getLatitude(),
+                                mLastLocation.getLongitude(),
+                                mRadius,
+                                mDebugText,
+                                mListAdapter
+                        );
+                    }
+                });
+                alertDialog.show();
             }
         });
     }
@@ -218,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (fromUser) {
                     seekBar.setProgress(progress);
                 }
-                mResponseText.setText("I want to see messages within " + String.valueOf(progress) + " meters.");
+                mDebugText.setText("I want to see messages within " + String.valueOf(progress) + " meters.");
 
                 // ugly as hell
                 if (progress < 75)
@@ -241,6 +274,29 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    protected void setList() {
+        mListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, mTweets);
+
+        // Assign adapter to ListView
+        mListView.setAdapter(mListAdapter);
+
+        // ListView Item Click Listener
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Tweet itemValue = (Tweet) mListView.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(),
+                        "posted by: " + itemValue.id + "\n" +
+                                "date: " + itemValue.date + "\n" +
+                                "coord: (" + itemValue.lat + ", " + itemValue.lon + ")",
+                        Toast.LENGTH_LONG)
+                        .show();
             }
         });
     }

@@ -1,8 +1,9 @@
 package ro.pub.cs.mpsit.loop4;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.widget.SeekBar;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -25,21 +26,20 @@ import java.util.ArrayList;
 public class HTTPController {
 
     protected static final String TAG = "HTTPController";
+    protected ArrayList<String> allowedDistances = new ArrayList<>();
 
-    private Context context;
+    private MainActivity activity;
     private RequestQueue queue;
     private String baseUrl;
 
-    protected ArrayList<String> allowedDistances = new ArrayList<String>();
-
-    public HTTPController(Context context, String ipAddress) {
-        this.context = context;
+    public HTTPController(Activity activity, Context context, String ipAddress) {
+        this.activity = (MainActivity) activity;
         // Instantiate the RequestQueue.
-        this.queue = Volley.newRequestQueue(this.context);
+        this.queue = Volley.newRequestQueue(context);
         this.baseUrl = "http://" + ipAddress + ":8080/api/";
     }
 
-    protected void getTweets(String query, double lon, double lat, String distance, final TextView debug) {
+    protected void getTweets(String query, double lon, double lat, String distance, final TextView debug, final ArrayAdapter<Tweet> adapter) {
 
         String url = baseUrl + "post/?q=" + query + "&longitude=" + lon + "&latitude=" + lat + "&distance=" + distance;
 
@@ -49,7 +49,9 @@ public class HTTPController {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i(TAG, "Response is: " + response.toString());
-                        debug.setText("Response is: " + response.toString());
+                        activity.mTweets.clear();
+                        parseTweetsResponse(response);
+                        adapter.notifyDataSetChanged();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -134,4 +136,33 @@ public class HTTPController {
             Log.i(TAG, allowedDistances.get(i));
         }
     }
+
+    private void parseTweetsResponse(JSONObject response) {
+        JSONObject hitsObject;
+        JSONArray hitsArray;
+        try {
+            hitsObject = response.getJSONObject("hits");
+            hitsArray = hitsObject.getJSONArray("hits");
+            for (int i = 0; i < hitsArray.length(); i++) {
+                JSONObject hit = hitsArray.getJSONObject(i);
+                JSONObject source = hit.getJSONObject("_source");
+                JSONObject location = source.getJSONObject("location");
+
+                String id = hit.getString("_id");
+                String date = source.getString("date");
+                String message = source.getString("message");
+
+                double lat = location.getDouble("lat");
+                double lon = location.getDouble("lon");
+
+                Log.i(TAG, id + date + message + lat + ":" + lon);
+                Tweet tweet = new Tweet(id, date, message, lon, lat);
+
+                this.activity.mTweets.add(tweet);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

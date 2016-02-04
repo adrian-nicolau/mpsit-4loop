@@ -32,6 +32,7 @@ public class GetServerIPDialogFragment extends DialogFragment {
                         Dialog d = (Dialog) dialog;
                         EditText edit = (EditText) d.findViewById(R.id.server_dialog_text);
                         activity.mHttpClient = new HTTPController(
+                                activity,
                                 activity.getApplicationContext(),
                                 edit.getText().toString()); // seriously?
                         activity.testConnection();
