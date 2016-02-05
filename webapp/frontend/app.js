@@ -40,7 +40,6 @@
     }
 
     AppController.prototype.submitMessage = function() {
-
         var payload = {
             message: this.newMessage,
             location: {
@@ -52,6 +51,7 @@
             {headers: {'content-type':'application/json'}}).catch(setError.bind(this));
         console.log("submit");
         console.log(payload);
+        this.newMessage = null;
     };
 
     AppController.prototype.loadMessages = function () {

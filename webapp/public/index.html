@@ -3,14 +3,29 @@
 <head>
 <title>4 Loop</title>
 <script src="bundle.js"></script>
+<link rel="stylesheet" href="bundle.css">
 </head>
 <body>
-<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 <div ng-app="app" ng-controller="appcontroller" layout="column">
+<md-content layout="column" layout-padding>
+    <md-toolbar>
+    <h2>4 Loop</h2>
+    <strong>Like 4 square but more like Twitter</strong>
+    </md-toolbar>
     <div ng-if="ctrl.error">
     {{ctrl.error}}
     </div>
-    {{ctrl.message}}
+    <form ng-submit="ctrl.submitMessage()" layout="row" layout-align="center" flex>
+        <md-input-container md-no-float flex="75">
+            <input placeholder="What's happening here?" ng-model="ctrl.newMessage" md-maxlength="200" md-minlength="10"></input>
+            <div ng-messages="projectForm.description.$error">
+                <div ng-message="md-maxlength">Whoah, don't write an essay!</div>
+                <div ng-message="md-minlength">Too concise, add more text!</div>
+            </div>
+        </md-input-container>
+        <md-button class="md-primary" type="submit">Post</md-button>
+    </form>
+    <md-divider></md-divider>
     <div ng-if="ctrl.distances">
     {{ctrl.distances}}
     </div>
@@ -23,15 +38,9 @@
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>
         No Messages
     </div>
-    <div>
-    <form ng-submit="ctrl.submitMessage()">
-        <md-input-container>
-            <input ng-model="ctrl.newMessage"></input>
-        </md-input-container>
-     </form>
-    </div>
     {{ctrl.newMessage}}
     {{ctrl.position}}
+</md-content>
 </div>
 </body>
 </html>
