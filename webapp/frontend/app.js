@@ -3,7 +3,8 @@
     require('angular-animate');
     require('angular-aria');
     require('angular-material');
-    var app = angular.module('app', ['ngMaterial']);
+    require('angular-moment');
+    var app = angular.module('app', ['ngMaterial', 'angularMoment']);
     app.controller('appcontroller', AppController);
 
     var setError = function(response) {
@@ -28,7 +29,7 @@
             self.loadMessages();
         });
 
-        $http.get('/api/post').then(function(response) {
+        $http.get('/api/distances').then(function(response) {
             console.log(response);
             self.distances = response.data.distances;
         }, setError.bind(this));
