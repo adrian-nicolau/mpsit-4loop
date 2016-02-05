@@ -15,9 +15,10 @@
     <div ng-if="ctrl.error">
     {{ctrl.error}}
     </div>
-    <form ng-submit="ctrl.submitMessage()" layout="row" layout-align="center" flex>
+    <form ng-submit="ctrl.submitMessage()" layout="row" layout-align="center" autocomplete="off" flex>
         <md-input-container md-no-float flex="75">
-            <input placeholder="What's happening here?" ng-model="ctrl.newMessage" md-maxlength="200" md-minlength="10"></input>
+            <input placeholder="What's happening here?" ng-model="ctrl.newMessage"
+             md-maxlength="200" md-minlength="10" autocomplete="off"></input>
             <div ng-messages="projectForm.description.$error">
                 <div ng-message="md-maxlength">Whoah, don't write an essay!</div>
                 <div ng-message="md-minlength">Too concise, add more text!</div>
