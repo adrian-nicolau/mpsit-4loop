@@ -42,8 +42,9 @@
       <md-list>
         <md-list-item class="md-2-line" ng-repeat="item in ctrl.messages.hits.hits">
             <div class="md-list-item-text" layout="column">
-                <p>{{item._source.message}}</p><h4>{{item._source.date | amTimeAgo}}</h4>
+                <h3>{{item._source.message}}</h3><p>{{item._source.date | amTimeAgo}}</p>
             </div>
+        <md-divider></md-divider>
         </md-list-item>
       </md-list>
     </div>
