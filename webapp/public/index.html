@@ -5,5 +5,33 @@
 <script src="bundle.js"></script>
 </head>
 <body>
+<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+<div ng-app="app" ng-controller="appcontroller" layout="column">
+    <div ng-if="ctrl.error">
+    {{ctrl.error}}
+    </div>
+    {{ctrl.message}}
+    <div ng-if="ctrl.distances">
+    {{ctrl.distances}}
+    </div>
+    <div ng-if="!ctrl.distances">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    Loading Bos!
+    </div>
+    {{ctrl.messages}}
+    <div ng-if="!ctrl.messages">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        No Messages
+    </div>
+    <div>
+    <form ng-submit="ctrl.submitMessage()">
+        <md-input-container>
+            <input ng-model="ctrl.newMessage"></input>
+        </md-input-container>
+     </form>
+    </div>
+    {{ctrl.newMessage}}
+    {{ctrl.position}}
+</div>
 </body>
 </html>
