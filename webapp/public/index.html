@@ -7,14 +7,14 @@
 </head>
 <body>
 <div ng-app="app" ng-controller="appcontroller" layout="column">
-<md-content layout="column" layout-padding>
     <md-toolbar>
     <h2>4 Loop</h2>
     <strong>Like 4 square but more like Twitter</strong>
     </md-toolbar>
-    <div ng-if="ctrl.error">
-    {{ctrl.error}}
-    </div>
+<md-content class="md-warn" ng-if="!ctrl.position">Waiting for Location
+<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</md-content>
+<md-content layout="column" layout-padding ng-if="ctrl.position">
     <form ng-submit="ctrl.submitMessage()" layout="row" layout-align="center" autocomplete="off" flex>
         <md-input-container md-no-float flex="75">
             <input placeholder="What's happening here?" ng-model="ctrl.newMessage"
