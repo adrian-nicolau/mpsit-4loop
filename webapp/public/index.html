@@ -27,8 +27,13 @@
         <md-button class="md-primary" type="submit">Post</md-button>
     </form>
     <md-divider></md-divider>
-    <div ng-if="ctrl.distances">
-    {{ctrl.distances}}
+    <div layout="row" layout-align="center" flex ng-if="ctrl.distances">
+    <md-slider md-discrete ng-model="ctrl.distanceIdx" flex="50"
+               ng-change="ctrl.loadMessages"
+               step="1" min="1" max="5" class="md-primary">
+    </md-slider>
+    <p layout-padding></p>
+    <p>Distance: <strong>{{ctrl.distances[ctrl.distanceIdx - 1]}}</strong></p>
     </div>
     <div ng-if="!ctrl.distances">
     <md-progress-circular md-mode="indeterminate"></md-progress-circular>

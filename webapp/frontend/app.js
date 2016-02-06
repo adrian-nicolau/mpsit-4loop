@@ -27,13 +27,14 @@
         this.position = null;
         this.messages = null;
         this.newMessage = null;
+        this.distanceIdx = null;
+
+        $scope.$watch('ctrl.distanceIdx', function() {
+            self.loadMessages();
+        });
 
         io.on('newmsg', function() {
-            console.log("refersh biatch!");
             self.loadMessages();
-            console.log(self.$document);
-            console.log((self.$document).visibilityState);
-            console.log(self.$document.visibilityState == "visible");
             if ((self.$document).visibilityState != "visible") {
                 new Notification("New message received.");
             }
@@ -45,8 +46,8 @@
         });
 
         $http.get('/api/distances').then(function(response) {
-            console.log(response);
             self.distances = response.data.distances;
+            self.distanceIdx = self.distances.length / 2 | 0;
         }, setError.bind(this));
     }
 
@@ -74,9 +75,14 @@
     };
 
     AppController.prototype.loadMessages = function() {
+        if (!this.position) {
+            return;
+        }
         var self = this;
+        var dist = this.distances[this.distanceIdx - 1];
         var params = '?longitude=' + this.position.coords.longitude +
-                     '&latitude=' + this.position.coords.latitude;
+                     '&latitude=' + this.position.coords.latitude +
+                     '&distance=' + dist;
         console.log(params);
 
         this.$http.get('/api/post' + params).then(function(response) {
