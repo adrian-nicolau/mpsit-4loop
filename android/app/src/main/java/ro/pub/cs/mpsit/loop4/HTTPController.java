@@ -39,7 +39,7 @@ public class HTTPController {
         this.baseUrl = "http://" + ipAddress + ":8080/api/";
     }
 
-    protected void getTweets(String query, double lon, double lat, String distance, final TextView debug, final ArrayAdapter<Tweet> adapter) {
+    protected void getTweets(String query, double lat, double lon, String distance, final TextView debug, final ArrayAdapter<Tweet> adapter) {
 
         String url = baseUrl + "post/?q=" + query + "&longitude=" + lon + "&latitude=" + lat + "&distance=" + distance;
 
@@ -63,7 +63,7 @@ public class HTTPController {
         queue.add(jsonRequest);
     }
 
-    protected void postMessage(String message, double lon, double lat, final TextView debug) {
+    protected void postMessage(String message, double lat, double lon, final TextView debug) {
         String url = baseUrl + "post";
 
         // Create a JSON message: {message: messageText, location: {longitude: lon, latitude: lat}}
