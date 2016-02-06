@@ -6,6 +6,15 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', '*.js', 'frontend/**/*.js'],
     },
+    jsdoc: {
+        dist: {
+            src: ['app.js', 'elastic.js', 'routes.js', 'frontend/*.js', '../README.md'],
+            options: {
+                destination: 'doc',
+                template : 'node_modules/ink-docstrap/template',
+            }
+        }
+    },
     watch: {
       linter: {
         files: ['<%= jshint.files %>'],
@@ -36,6 +45,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-concat-css');
+  grunt.loadNpmTasks('grunt-jsdoc');
 
   grunt.registerTask('default', ['jshint', 'browserify']);
 };
