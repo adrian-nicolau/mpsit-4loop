@@ -1,3 +1,7 @@
+/**
+ * @module frontend
+ * @description Holds all logic related to the AngularJS model.
+ */
 (function() {
     var angular = require('angular');
     var io = require('socket.io-client')();
@@ -15,8 +19,11 @@
     };
 
     /**
-     * AngularJS controller used for the site.
+     * @description AngularJS controller used for the site.
      * @constructor
+     * @memberof frontend
+     * @private
+     *
      */
     function AppController($scope, $http, $document, $mdToast) {
         var self = this;
@@ -69,6 +76,13 @@
                this.messages !== null;
     };
 
+    /**
+     * @function
+     * @name submitMessage
+     * @description Makes a post request to send a new message to the server.
+     * @private
+     * @memberof frontend:AppController
+     */
     AppController.prototype.submitMessage = function() {
         var self = this;
         var payload = {
@@ -87,6 +101,11 @@
         this.newMessage = null;
     };
 
+    /** @description Queries the server and loads messages that were posted near user's geolocation.
+     *  @function
+     *  @private
+     *  @memberof frontend:AppController
+     */
     AppController.prototype.loadMessages = function() {
         if (!this.position) {
             return;
@@ -103,6 +122,11 @@
         }, setError.bind(this));
     };
 
+    /** @description Shows a toast message on the top left corner of the screen.
+     * @function
+     * @public
+     * @memberof frontend:AppController
+     */
     AppController.prototype.showToast = function(text) {
         this.$mdToast.show(this.$mdToast.simple().textContent(text)
                            .hideDelay(3000).position('top'));
