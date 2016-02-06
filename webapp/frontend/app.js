@@ -33,10 +33,19 @@
             self.loadMessages();
         });
 
+        if (Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+
         io.on('newmsg', function() {
             self.loadMessages();
             if ((self.$document).visibilityState != "visible") {
-                new Notification("New message received.");
+                var n = new Notification('4loop',{
+                    tag: '4loop',
+                    body: 'New post on 4loop.',
+                    renotify: false,
+                });
+                setTimeout(n.close.bind(n), 1000);
             }
         });
 
