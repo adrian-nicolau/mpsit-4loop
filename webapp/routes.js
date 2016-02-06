@@ -11,9 +11,11 @@ exports.distances = function(req, res) {
 
 /**
  * Send the messages that match the request params:
+ *
  *  - Longitude: pin longitude;
  *  - Latitude: pin latitude;
  *  - Distance: Maximum distance around pin (haversine);
+ *    See {@link distances} for the allowed ones.
  *  - Query: Full Text Search query.
  */
 exports.search = function(req, res) {
