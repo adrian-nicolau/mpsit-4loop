@@ -1,5 +1,9 @@
 (function() {
     var angular = require('angular');
+    var io = require('socket.io-client')();
+    io.on('newmsg', function(){
+        console.log('refresh biatch!');
+    });
     require('angular-animate');
     require('angular-aria');
     require('angular-material');
