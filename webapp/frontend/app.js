@@ -1,9 +1,7 @@
 (function() {
     var angular = require('angular');
     var io = require('socket.io-client')();
-    io.on('newmsg', function(){
-        console.log('refresh biatch!');
-    });
+
     require('angular-animate');
     require('angular-aria');
     require('angular-material');
@@ -16,17 +14,26 @@
         this.error = response.data.errror;
     }
 
-    function AppController($scope, $http) {
+    function AppController($scope, $http, $document) {
         var self = this;
         $scope.ctrl = this;
 
         this.$http = $http;
+        this.$document = $document;
 
         this.message = "hello world";
         this.distances = null;
         this.position = null;
         this.messages = null;
         this.newMessage = null;
+
+        io.on('newmsg', function() {
+            console.log("refersh biatch!");
+            self.loadMessages();
+            if (this.$document.visibility !== "visible") {
+                new Notification("New message received.");
+            }
+        });
 
         navigator.geolocation.getCurrentPosition(function(position) {
             self.position = position;
@@ -63,6 +70,7 @@
         var self = this;
         var params = '?longitude=' + this.position.coords.longitude +
                      '&latitude=' + this.position.coords.latitude;
+        console.log(params);
 
         this.$http.get('/api/post' + params).then(function(response) {
             console.log(response.data);
