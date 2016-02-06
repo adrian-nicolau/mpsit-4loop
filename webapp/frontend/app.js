@@ -14,6 +14,10 @@
         this.showToast(response.data.error);
     }
 
+    /**
+     * AngularJS controller used for the site.
+     * @constructor
+     */
     function AppController($scope, $http, $document, $mdToast) {
         var self = this;
         $scope.ctrl = this;

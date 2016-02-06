@@ -25,7 +25,6 @@ function broadcastNewPost(req, res, next) {
 }
 app.post('/api/post', broadcastNewPost, routes.postMessage);
 
-
 server.listen(3000, function() {
     console.log('App listening on port 3000');
 });

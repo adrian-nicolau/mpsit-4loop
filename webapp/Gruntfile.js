@@ -11,7 +11,9 @@ module.exports = function(grunt) {
             src: ['app.js', 'elastic.js', 'routes.js', 'frontend/*.js', '../README.md'],
             options: {
                 destination: 'doc',
-                template : 'node_modules/ink-docstrap/template',
+                template: 'node_modules/ink-docstrap/template',
+                access: 'all',
+                plugins: ["plugins/markdown"],
             }
         }
     },
