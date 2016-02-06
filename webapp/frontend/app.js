@@ -11,14 +11,15 @@
 
     var setError = function(response) {
         console.log("Encountered error");
-        this.error = response.data.errror;
+        this.showToast(response.data.error);
     }
 
-    function AppController($scope, $http, $document) {
+    function AppController($scope, $http, $document, $mdToast) {
         var self = this;
         $scope.ctrl = this;
 
         this.$http = $http;
+        this.$mdToast = $mdToast;
         this.$document = $document[0];
 
         this.message = "hello world";
@@ -55,6 +56,7 @@
     }
 
     AppController.prototype.submitMessage = function() {
+        var self = this;
         var payload = {
             message: this.newMessage,
             location: {
@@ -63,21 +65,27 @@
             }
         };
         this.$http.post('/api/post', payload,
-            {headers: {'content-type':'application/json'}}).catch(setError.bind(this));
+            {headers: {'content-type':'application/json'}}).then(
+            function(response) { self.showToast('Posted!'); },
+            setError.bind(this));
         console.log("submit");
         console.log(payload);
         this.newMessage = null;
     };
 
-    AppController.prototype.loadMessages = function () {
+    AppController.prototype.loadMessages = function() {
         var self = this;
         var params = '?longitude=' + this.position.coords.longitude +
                      '&latitude=' + this.position.coords.latitude;
         console.log(params);
 
         this.$http.get('/api/post' + params).then(function(response) {
-            console.log(response.data);
             self.messages = response.data;
         }, setError.bind(this));
+    };
+
+    AppController.prototype.showToast = function(text) {
+        this.$mdToast.show(this.$mdToast.simple().textContent(text)
+                           .hideDelay(3000).position('top'));
     };
 })();
