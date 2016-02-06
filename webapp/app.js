@@ -19,6 +19,7 @@ app.use(elastic.requireIndex);
 app.get('/api/post', routes.search);
 app.get('/api/distances', routes.distances);
 
+/** Sends push notification stating that a new message was posted. */
 function broadcastNewPost(req, res, next) {
     setTimeout(function() { io.emit('newmsg', { for: 'everyone' });}, 1000);
     next();

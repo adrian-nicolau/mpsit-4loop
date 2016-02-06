@@ -27,6 +27,7 @@ var MAPPING = {
 };
 
 
+/** Route that doesn't let requests pass unless the correct ES index exists. */
 exports.requireIndex = function(req, res, next) {
     client.indices.exists({
         index: INDEX,

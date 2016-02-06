@@ -4,10 +4,18 @@ var maxLen = 200;
 var minLen = 10;
 var distances = ['50m', '100m', '500m', '1km', '2km', '5km'];
 
+/** Send the allowed distances for a distance search. */
 exports.distances = function(req, res) {
     res.send({distances: distances});
 };
 
+/**
+ * Send the messages that match the request params:
+ *  - Longitude: pin longitude;
+ *  - Latitude: pin latitude;
+ *  - Distance: Maximum distance around pin (haversine);
+ *  - Query: Full Text Search query.
+ */
 exports.search = function(req, res) {
     var longitude = req.query.longitude || '0.0';
     var latitude = req.query.latitude || '0.0';
@@ -58,11 +66,13 @@ exports.search = function(req, res) {
     });
 };
 
-// Accept this format:
-// {message: messageText,
-//  location: {longitude: lon,
-//             latitude: lat}}
-// NOTE Must send application/json content type header.
+/**
+ * Stores a message sent as a payload with the given format:
+ * {message: messageText,
+ * location: {longitude: lon,
+ *            latitude: lat}}
+ * NOTE Must send application/json content type header.
+ */
 exports.postMessage = function(req, res) {
     var msg = req.body.message;
     var loc = req.body.location;
