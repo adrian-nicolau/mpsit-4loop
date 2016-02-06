@@ -4,6 +4,7 @@
 <title>4 Loop</title>
 <script src="bundle.js"></script>
 <link rel="stylesheet" href="bundle.css">
+<meta name="viewport" content="width=device-width">
 </head>
 <body>
 <div ng-app="app" ng-controller="appcontroller" layout="column">
@@ -15,8 +16,8 @@
 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </md-content>
 <md-content layout="column" layout-padding ng-if="ctrl.position">
-    <form ng-submit="ctrl.submitMessage()" layout="row" layout-align="center" autocomplete="off" flex>
-        <md-input-container md-no-float flex="75">
+    <form ng-submit="ctrl.submitMessage()" layout="row" layout-sm="column" layout-xs="column" layout-align="center" autocomplete="off" flex>
+        <md-input-container md-no-float flex="75" flex-sm="100" flex-xs="100">
             <input placeholder="What's happening here?" ng-model="ctrl.newMessage"
              md-maxlength="200" md-minlength="10" autocomplete="off"></input>
             <div ng-messages="projectForm.description.$error">
@@ -27,8 +28,8 @@
         <md-button class="md-primary" type="submit">Post</md-button>
     </form>
     <md-divider></md-divider>
-    <div layout="row" layout-align="center" flex ng-if="ctrl.distances">
-    <md-slider md-discrete ng-model="ctrl.distanceIdx" flex="50"
+    <div layout="row" layout-sm="column" layout-xs="column" layout-align="center" flex ng-if="ctrl.distances">
+    <md-slider md-discrete ng-model="ctrl.distanceIdx" flex="50" flex-sm="100" flex-xs="100"
                ng-change="ctrl.loadMessages"
                step="1" min="1" max="5" class="md-primary">
     </md-slider>
