@@ -7,10 +7,28 @@
 <meta name="viewport" content="width=device-width">
 </head>
 <body>
+<style>
+#head {
+  color: white;
+  background-color: #115;
+  font-weight: bold;
+  padding-left: 3em;
+  font-family: "Lucida" Grande, sans-serif;
+}
+#aheader {
+  padding: 0.1em;
+  margin: 0;
+}
+#subhead {
+  padding: 0 0 0 2em;
+  margin: 0;
+  padding-bottom: 1em;
+}
+</style>
 <div ng-app="app" ng-controller="appcontroller" layout="column">
-    <md-toolbar>
-    <h2>4 Loop</h2>
-    <strong>Like 4 square but more like Twitter</strong>
+    <md-toolbar id="head">
+    <h2 id="aheader">4LOOP</h2>
+    <h4 id="subhead">"Like 4 square but more like Twitter"</h4>
     </md-toolbar>
 <md-content class="md-warn" ng-if="!ctrl.position">Waiting for Location
 <md-progress-circular md-mode="indeterminate"></md-progress-circular>
@@ -48,7 +66,7 @@
       <md-list>
         <md-list-item class="md-2-line" ng-repeat="item in ctrl.messages.hits.hits">
             <div class="md-list-item-text" layout="column">
-                <h3>{{item._source.message}}</h3><p>{{item._source.date | amTimeAgo}}</p>
+                <h4>{{item._source.message}}</h4><p>{{item._source.date | amTimeAgo}}</p>
             </div>
         <md-divider></md-divider>
         </md-list-item>
