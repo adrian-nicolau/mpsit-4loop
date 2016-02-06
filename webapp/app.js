@@ -20,7 +20,7 @@ app.get('/api/post', routes.search);
 app.get('/api/distances', routes.distances);
 
 function broadcastNewPost(req, res, next) {
-    io.emit('newmsg', { for: 'everyone' });
+    setTimeout(function() { io.emit('newmsg', { for: 'everyone' });}, 500);
     next();
 }
 app.post('/api/post', broadcastNewPost, routes.postMessage);
