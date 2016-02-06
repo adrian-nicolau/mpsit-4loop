@@ -19,7 +19,7 @@
         $scope.ctrl = this;
 
         this.$http = $http;
-        this.$document = $document;
+        this.$document = $document[0];
 
         this.message = "hello world";
         this.distances = null;
@@ -30,7 +30,10 @@
         io.on('newmsg', function() {
             console.log("refersh biatch!");
             self.loadMessages();
-            if (this.$document.visibility !== "visible") {
+            console.log(self.$document);
+            console.log((self.$document).visibilityState);
+            console.log(self.$document.visibilityState == "visible");
+            if ((self.$document).visibilityState != "visible") {
                 new Notification("New message received.");
             }
         });
