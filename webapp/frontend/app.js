@@ -12,7 +12,7 @@
     var setError = function(response) {
         console.log("Encountered error");
         this.showToast(response.data.error);
-    }
+    };
 
     /**
      * AngularJS controller used for the site.
@@ -65,9 +65,9 @@
     }
 
     AppController.prototype.isLoaded = function() {
-        return this.position != null && this.distances != null
-               && this.messages != null;
-    }
+        return this.position !== null && this.distances !== null &&
+               this.messages !== null;
+    };
 
     AppController.prototype.submitMessage = function() {
         var self = this;
