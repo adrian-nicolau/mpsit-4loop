@@ -19,6 +19,9 @@ var MAPPING = {
                     },
                     date: {
                         type: 'date'
+                    },
+                    locationName: {
+                        type: 'string'
                     }
                 }
             }

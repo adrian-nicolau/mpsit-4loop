@@ -1,4 +1,13 @@
 var client = require('./elastic').client;
+var geocoderProvider = 'google';
+var httpsAdapter = 'https';
+// optionnal
+var extra = {
+    apiKey: '<insert key here>',
+    formatter: null
+};
+
+var geocoder = require('node-geocoder')(geocoderProvider, httpsAdapter, extra);
 
 var maxLen = 200;
 var minLen = 10;
@@ -8,6 +17,12 @@ var distances = ['50m', '100m', '500m', '1km', '2km', '5km'];
 exports.distances = function(req, res) {
     res.send({distances: distances});
 };
+
+
+exports.location_name = function(req, res) {
+    var longitude = req.query.longitude || '0.0';
+    var latitude = req.query.latitude || '0.0';
+}
 
 /**
  * Send the messages that match the request params:
@@ -101,18 +116,27 @@ exports.postMessage = function(req, res) {
         res.status(400).send({error: 'Bad longitude'});
         return;
     }
-    client.index({
-        index: 'posts',
-        type: 'post',
-        body: {
-            message: msg.substring(0, maxLen),
-            location: {
-                lat: parseFloat(lat),
-                lon: parseFloat(lon),
-            },
-            date: new Date()
-        },
-    }, function(err, response) {
-        res.send(response);
+
+    console.log("ABOUT TO QUERRY GOOGLE");
+    var location = geocoder.reverse({lat:lat, lon:lon});
+    location.then(function(loc) {
+        console.log(loc);
+        client.index({
+            index: 'posts',
+            type: 'post',
+            body: {
+                message: msg.substring(0, maxLen),
+                location: {
+                    lat: parseFloat(lat),
+                    lon: parseFloat(lon),
+                },
+                locationName: loc.results[0].formattedAddress,
+                date: new Date()
+            }
+        }, function(err, response) {
+            console.log("INDEX");
+            console.log(response);
+            res.send(response)
+        });
     });
 };

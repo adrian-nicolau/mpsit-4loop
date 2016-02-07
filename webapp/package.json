@@ -27,13 +27,14 @@
     "grunt-contrib-watch": "~0.6.1",
     "grunt-express-server": "~0.5.1",
     "grunt-jsdoc": "^1.1.0",
+    "ink-docstrap": "~1.1.1",
     "install": "~0.4.1",
     "jsdoc": "^3.4.0",
     "morgan": "~1.6.1",
+    "node-geocoder": "^3.6.2",
     "npm": "~3.5.3",
     "socket.io": "~1.4.5",
     "socket.io-client": "~1.4.5",
-    "utf-8-validate": "~1.2.1",
-    "ink-docstrap": "~1.1.1"
+    "utf-8-validate": "~1.2.1"
   }
 }
