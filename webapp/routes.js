@@ -1,9 +1,8 @@
 var client = require('./elastic').client;
 var geocoderProvider = 'google';
 var httpsAdapter = 'https';
-// optionnal
 var extra = {
-    apiKey: '<insert key here>',
+    apiKey: require('./settings').googleApi,
     formatter: null
 };
 
@@ -117,26 +116,27 @@ exports.postMessage = function(req, res) {
         return;
     }
 
-    console.log("ABOUT TO QUERRY GOOGLE");
-    var location = geocoder.reverse({lat:lat, lon:lon});
-    location.then(function(loc) {
-        console.log(loc);
-        client.index({
-            index: 'posts',
-            type: 'post',
-            body: {
-                message: msg.substring(0, maxLen),
-                location: {
+    var indexDict = {
+        index: 'posts',
+        type: 'post',
+        body: {
+            message: msg.substring(0, maxLen),
+            location : {
                     lat: parseFloat(lat),
                     lon: parseFloat(lon),
                 },
-                locationName: loc.results[0].formattedAddress,
-                date: new Date()
-            }
-        }, function(err, response) {
-            console.log("INDEX");
-            console.log(response);
-            res.send(response)
-        });
+            date: new Date()
+        }
+    };
+
+    geocoder.reverse({lat: lat, lon: lon})
+    .then(function(loc) {
+        indexDict.body.locationName = loc[0].formattedAddress;
+        console.log(loc[0].formattedAddress);
+        console.log(loc);
+    })
+    .then(function() {
+        client.index(indexDict,
+                     function(err, response) { res.send(response); });
     });
 };

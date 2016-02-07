@@ -64,15 +64,15 @@
     <div ng-if="ctrl.messages">
     <md-divider ></md-divider>
       <md-list>
-        <md-list-item class="md-2-line" ng-repeat="item in ctrl.messages.hits.hits">
+        <md-list-item class="md-3-line" ng-repeat="item in ctrl.messages.hits.hits">
             <div class="md-list-item-text" layout="column">
                 <h4>{{item._source.message}}</h4><p>{{item._source.date | amTimeAgo}}</p>
+                <p>{{item._source.locationName}}</p>
             </div>
         <md-divider></md-divider>
         </md-list-item>
       </md-list>
     </div>
-{{ctrl.messages}}
 </md-content>
 </div>
 </body>

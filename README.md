@@ -27,6 +27,8 @@ Catchphrase: *keeping you in the **loop**!*
 * ```cd /webapp/```
 * ```npm install``` If not already installed stuff
 * ```grunt```
+* ```cp settings.example.json settings.json```
+* ```add the correct API key
 * ```nodejs app.js```
 * Ports are forwarded so go to http://localhost:8080 in your machine
 
