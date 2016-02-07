@@ -1,0 +1,141 @@
+[
+  {
+    "type": "get",
+    "url": "/api/distances/",
+    "title": "Get allowed distances",
+    "name": "Distances",
+    "group": "4loop",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "all",
+            "description": "<p>A dict with the correct distances</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n    'distances': ['1km', '2km']\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./app.js",
+    "groupTitle": "4loop"
+  },
+  {
+    "type": "post",
+    "url": "/api/post/",
+    "title": "Post a new message",
+    "name": "PostMessage",
+    "group": "4loop",
+    "description": "<p>Post a new message.</p>",
+    "header": {
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n    \"message\": \"A cool Message\",\n    \"location\": {\n        \"longitude\": 42.000,\n        \"latitude\": 36.600\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "all",
+            "description": "<p>forwareded JSON response in ElasticSearch format</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "POSTError",
+            "description": "<p>Returned if the POST dict is incorrectly sent.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response",
+          "content": "HTTP/1.1 400 ERROR\n{\n    'error': 'Message Too Long'\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "./app.js",
+    "groupTitle": "4loop"
+  },
+  {
+    "type": "get",
+    "url": "/api/post?latitude=:lat&longitude=:lon&q=:q&distance:dist",
+    "title": "Search Messages",
+    "name": "Search",
+    "group": "4loop",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "lat",
+            "description": "<p>Latitude of pin</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "lon",
+            "description": "<p>Longitude of pin</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Text",
+            "optional": false,
+            "field": "q",
+            "description": "<p>Full Text Search Query</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Text",
+            "optional": false,
+            "field": "dist",
+            "description": "<p>Distance around pin. See /api/distances for the allowed values</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "json",
+            "optional": false,
+            "field": "all",
+            "description": "<p>Forwareded JSON response in ElasticSearch format</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "./app.js",
+    "groupTitle": "4loop"
+  }
+]

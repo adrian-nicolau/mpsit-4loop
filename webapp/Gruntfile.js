@@ -13,7 +13,7 @@ module.exports = function(grunt) {
                 destination: 'doc',
                 template: 'node_modules/ink-docstrap/template',
                 access: 'all',
-                plugins: ["plugins/markdown"],
+                plugins: ['plugins/markdown'],
             }
         }
     },
@@ -39,6 +39,17 @@ module.exports = function(grunt) {
             src: ['node_modules/angular-material/angular-material.min.css'],
             dest: 'public/bundle.css'
         }
+    },
+    apidoc: {
+        myapp: {
+            src: './',
+            dest: 'apidoc/',
+            options: {
+                debug: true,
+                includeFilters: [ 'app.js' ],
+                excludeFilters: [ 'node_modules/', 'frontend/' ]
+            }
+        }
     }
   });
 
@@ -48,6 +59,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-concat-css');
   grunt.loadNpmTasks('grunt-jsdoc');
+  grunt.loadNpmTasks('grunt-apidoc');
 
   grunt.registerTask('default', ['jshint', 'browserify']);
 };
