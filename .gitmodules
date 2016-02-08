@@ -1,4 +1,0 @@
-[submodule "android/lib/volley"]
-	path = android/lib/volley
-	url = https://android.googlesource.com/platform/frameworks/volley
-	branch = master
